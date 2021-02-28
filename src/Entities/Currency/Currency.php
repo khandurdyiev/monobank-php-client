@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Khandurdyiev\MonoClient\Entities\Currency;
 
-use Alcohol\ISO4217 as AlcoholISO4217;
 use Khandurdyiev\MonoClient\ISO4217;
 use Carbon\Carbon;
 
@@ -16,7 +15,6 @@ class Currency implements \JsonSerializable
     private ?float $rateSell;
     private ?float $rateBuy;
     private ?float $rateCross;
-    private ISO4217 $iso4217;
 
     /**
      * @param array<string, mixed> $currency
@@ -29,7 +27,6 @@ class Currency implements \JsonSerializable
         $this->rateSell = isset($currency['rateSell']) ? (float) $currency['rateSell'] : null;
         $this->rateBuy = isset($currency['rateBuy']) ? (float) $currency['rateBuy'] : null;
         $this->rateCross = isset($currency['rateCross']) ? (float) $currency['rateCross'] : null;
-        $this->iso4217 = new ISO4217(new AlcoholISO4217());
     }
 
     /**
@@ -54,12 +51,12 @@ class Currency implements \JsonSerializable
 
     public function getCurrencyA(): string
     {
-        return $this->iso4217->getByNumeric($this->currencyCodeA);
+        return ISO4217::create()->getByNumeric($this->currencyCodeA);
     }
 
     public function getCurrencyB(): string
     {
-        return $this->iso4217->getByNumeric($this->currencyCodeB);
+        return ISO4217::create()->getByNumeric($this->currencyCodeB);
     }
 
     public function getTimestamp(): int
