@@ -7,3 +7,4 @@
 /phpstan.neon export-ignore
 /phpunit.xml.dist export-ignore
 /psalm.xml export-ignore
+/CONTRIBUTING.md export-ignore
