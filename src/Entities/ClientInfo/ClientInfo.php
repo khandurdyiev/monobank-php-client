@@ -56,6 +56,11 @@ class ClientInfo implements JsonSerializable
         return $this->accounts;
     }
 
+    public function getPermissions(): string
+    {
+        return $this->permissions;
+    }
+
     /**
      * @param array<string, mixed> $clientInfo
      *
@@ -72,11 +77,11 @@ class ClientInfo implements JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'webhook_url' => $this->webHookUrl,
-            'permissions' => $this->permissions,
-            'accounts' => $this->accounts
+            'id' => $this->getId(),
+            'name' => $this->getName(),
+            'webhook_url' => $this->getWebHookUrl(),
+            'permissions' => $this->getPermissions(),
+            'accounts' => $this->getAccounts()
         ];
     }
 }
