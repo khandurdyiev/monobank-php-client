@@ -1,0 +1,43 @@
+name: Code Style And Tests
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  test:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [ 7.4, 8.0 ]
+
+    name: P${{ matrix.php }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          coverage: none
+
+      - name: Install dependencies
+        run: composer update --prefer-dist --no-interaction --no-progress
+
+      - name: Run tests
+        run: ./vendor/bin/phpunit
+
+      - name: PHPCS
+        run: ./vendor/bin/phpcs
+
+      - name: Psalm
+        run: ./vendor/bin/psalm
+
+      - name: PHPStan
+        run: ./vendor/bin/phpstan a --no-progress
