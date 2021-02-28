@@ -12,5 +12,5 @@ Monobank php client helps you to use [Monobank API](https://api.monobank.ua/docs
 It's recommended that you use [Composer](https://getcomposer.org/) to install Monobank php client.
 
 ```bash
-$ composer require khandurdyiev/monobank-php-client:^1.0
+$ composer require khandurdyiev/monobank-php-client
 ```
