@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Khandurdyiev\MonoClient\Entities\Statement;
 
-use Alcohol\ISO4217 as AlcoholISO4217;
 use Khandurdyiev\MonoClient\ISO4217;
 use Khandurdyiev\MonoClient\Utils\Utils;
 
@@ -25,7 +24,6 @@ class Statement implements \JsonSerializable
     private string $receiptId;
     private string $counterEdrpou;
     private string $counterIban;
-    private ISO4217 $iso4217;
 
     /**
      * @param array<string, mixed> $statement
@@ -47,7 +45,6 @@ class Statement implements \JsonSerializable
         $this->receiptId = $statement['receiptId'] ?? '';
         $this->counterEdrpou = $statement['counterEdrpou'] ?? '';
         $this->counterIban = $statement['counterIban'] ?? '';
-        $this->iso4217 = new ISO4217(new AlcoholISO4217());
     }
 
     /**
@@ -102,7 +99,7 @@ class Statement implements \JsonSerializable
 
     public function getCurrency(): string
     {
-        return $this->iso4217->getByNumeric($this->currencyCode);
+        return ISO4217::create()->getByNumeric($this->currencyCode);
     }
 
     public function getCommissionRate(): int

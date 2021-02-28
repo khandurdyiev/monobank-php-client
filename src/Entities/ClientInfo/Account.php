@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Khandurdyiev\MonoClient\Entities\ClientInfo;
 
-use Alcohol\ISO4217 as AlcoholISO4217;
 use Khandurdyiev\MonoClient\ISO4217;
 use Khandurdyiev\MonoClient\Utils\Utils;
 
@@ -21,7 +20,6 @@ class Account implements \JsonSerializable
      * @var array<int, string>
      */
     private array $maskedPan;
-    private ISO4217 $iso4217;
 
     /**
      * @param array<string, mixed> $account
@@ -36,7 +34,6 @@ class Account implements \JsonSerializable
         $this->type = (string)$account['type'];
         $this->iban = (string)$account['iban'];
         $this->maskedPan = (array)$account['maskedPan'];
-        $this->iso4217 = new ISO4217(new AlcoholISO4217());
     }
 
     /**
@@ -71,7 +68,7 @@ class Account implements \JsonSerializable
 
     public function getCurrency(): string
     {
-        return $this->iso4217->getByNumeric($this->currencyCode);
+        return ISO4217::create()->getByNumeric($this->currencyCode);
     }
 
     public function getCashbackType(): string
