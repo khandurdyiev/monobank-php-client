@@ -7,7 +7,6 @@ namespace Khandurdyiev\MonoClient;
 use Carbon\CarbonInterval;
 use GuzzleHttp\Utils;
 use Khandurdyiev\MonoClient\Entities\ClientInfo\ClientInfo;
-use Khandurdyiev\MonoClient\Entities\Currency\Currency;
 use Khandurdyiev\MonoClient\Entities\Currency\CurrencyCollection;
 use Khandurdyiev\MonoClient\Entities\Statement\StatementCollection;
 use Khandurdyiev\MonoClient\Exceptions\InvalidDateForStatementException;
@@ -103,17 +102,17 @@ class MonoClient
     }
 
     /**
-     * @return Currency[]
+     * @return CurrencyCollection
      *
      * @throws Exceptions\MonobankApiException
      */
-    public function currency(): array
+    public function currency(): CurrencyCollection
     {
         $response = $this->client->get('bank/currency');
 
         /** @var array<int, array<string, mixed>> $decoded */
         $decoded = Utils::jsonDecode($response->getBody()->getContents(), true);
 
-        return CurrencyCollection::create($decoded)->all();
+        return CurrencyCollection::create($decoded);
     }
 }

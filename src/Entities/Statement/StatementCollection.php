@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Khandurdyiev\MonoClient\Entities\Statement;
 
-class StatementCollection
+class StatementCollection implements \JsonSerializable
 {
     /** @var Statement[] */
     private array $collection = [];
@@ -35,5 +35,10 @@ class StatementCollection
     public function all(): array
     {
         return $this->collection;
+    }
+
+    public function jsonSerialize()
+    {
+        return $this->all();
     }
 }

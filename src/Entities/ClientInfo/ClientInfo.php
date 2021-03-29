@@ -66,7 +66,7 @@ class ClientInfo implements JsonSerializable
      *
      * @return AccountCollection
      */
-    public function getAccountCollection(array $clientInfo): AccountCollection
+    private function getAccountCollection(array $clientInfo): AccountCollection
     {
         /** @var array<int, array<string, mixed>> $accounts */
         $accounts = $clientInfo['accounts'];

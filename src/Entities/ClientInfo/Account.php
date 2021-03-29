@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Khandurdyiev\MonoClient\Entities\ClientInfo;
 
+use JsonSerializable;
 use Khandurdyiev\MonoClient\ISO4217;
-use Khandurdyiev\MonoClient\Utils\Utils;
 
-class Account implements \JsonSerializable
+class Account implements JsonSerializable
 {
     private string $id;
     private int $balance;
@@ -46,14 +46,14 @@ class Account implements \JsonSerializable
         return new self($account);
     }
 
-    public function getBalance(): float
+    public function getBalance(): int
     {
-        return Utils::round($this->balance);
+        return $this->balance;
     }
 
-    public function getCreditLimit(): float
+    public function getCreditLimit(): int
     {
-        return Utils::round($this->balance);
+        return $this->creditLimit;
     }
 
     public function getType(): string
