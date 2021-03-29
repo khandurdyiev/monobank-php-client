@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Khandurdyiev\MonoClient\Entities\Statement;
 
+use JsonSerializable;
 use Khandurdyiev\MonoClient\ISO4217;
-use Khandurdyiev\MonoClient\Utils\Utils;
 
-class Statement implements \JsonSerializable
+class Statement implements JsonSerializable
 {
     private string $id;
     private int $time;
@@ -82,14 +82,14 @@ class Statement implements \JsonSerializable
         return $this->hold;
     }
 
-    public function getAmount(): float
+    public function getAmount(): int
     {
-        return Utils::round($this->amount);
+        return $this->amount;
     }
 
-    public function getOperationAmount(): float
+    public function getOperationAmount(): int
     {
-        return Utils::round($this->operationAmount);
+        return $this->operationAmount;
     }
 
     public function getCurrencyCode(): int
@@ -107,14 +107,14 @@ class Statement implements \JsonSerializable
         return $this->commissionRate;
     }
 
-    public function getCashbackAmount(): float
+    public function getCashbackAmount(): int
     {
-        return Utils::round($this->cashbackAmount);
+        return $this->cashbackAmount;
     }
 
-    public function getBalance(): float
+    public function getBalance(): int
     {
-        return Utils::round($this->balance);
+        return $this->balance;
     }
 
     public function getComment(): string

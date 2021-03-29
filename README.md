@@ -14,3 +14,62 @@ It's recommended that you use [Composer](https://getcomposer.org/) to install Mo
 ```bash
 $ composer require khandurdyiev/monobank-php-client
 ```
+
+## Important
+*All money amounts in dime (according to Monobank API)*
+
+## Basic Usage (Public Data)
+```php
+<?php
+
+use Khandurdyiev\MonoClient\MonoClient;
+
+// create a monobank client instance
+$mono = new MonoClient();
+$currencies = $mono->currency()->all();
+
+foreach ($currencies as $currency) {
+    $currencyA = $currency->getCurrencyA(); // USD
+    $currencyB = $currency->getCurrencyB(); // UAH
+    $date = $currency->getDate(); // returns Carbon instance with date
+    // ...
+}
+```
+
+## Usage with token (Private Data)
+```php
+<?php
+
+use Khandurdyiev\MonoClient\MonoClient;
+
+// create a monobank client instance
+$mono = new MonoClient('your_monobank_api_token'); // you can get from https://api.monobank.ua
+
+// Get client info
+$clientInfo = $mono->clientInfo();
+$name = $clientInfo->getName();
+$accounts = $clientInfo->getAccounts()->all();
+
+foreach ($accounts as $account) {
+    $balance = $account->getBalance(); // 123456
+    $creditLimit = $account->getCreditLimit(); // 654321
+    $currency = $account->getCurrency(); // UAH
+    
+    // ...
+}
+
+// Get statements of concrete account
+$statements = $mono->statements('timestamp_from', 'timestamp_to', 'account_id')->all();
+
+foreach ($statements as $statement) {
+    $amount = $statement->getAmount(); // 123456
+    $cashbackAmount = $statement->getCashbackAmount(); // 123456
+    $currency = $statement->getCurrency(); // UAH
+    // ...
+}
+```
+
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
