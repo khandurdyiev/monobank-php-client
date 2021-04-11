@@ -23,10 +23,7 @@ class ISO4217
         $numeric = sprintf("%03d", $code);
 
         try {
-            /** @var string $code */
-            $code = (new AlcoholISO4217())->getByNumeric($numeric)['alpha3'];
-
-            return $code;
+            return (string) (new AlcoholISO4217())->getByNumeric($numeric)['alpha3'];
         } catch (\OutOfBoundsException $exception) {
             switch ($numeric) {
                 case '894':
@@ -35,9 +32,9 @@ class ISO4217
                     return 'TMT';
                 case '478':
                     return 'MNT';
+                default:
+                    throw new \OutOfBoundsException('ISO 4217 does not contain: ' . $code);
             }
         }
-
-        throw new \OutOfBoundsException('ISO 4217 does not contain: ' . $code);
     }
 }

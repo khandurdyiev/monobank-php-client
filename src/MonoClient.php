@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Khandurdyiev\MonoClient;
 
+use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use GuzzleHttp\Utils;
 use Khandurdyiev\MonoClient\Entities\ClientInfo\ClientInfo;
@@ -70,8 +71,8 @@ class MonoClient
     }
 
     /**
-     * @param int $from
-     * @param int|null $to
+     * @param Carbon $from
+     * @param Carbon|null $to
      * @param string $accountId
      *
      * @return StatementCollection
@@ -79,18 +80,26 @@ class MonoClient
      * @throws InvalidDateForStatementException
      * @throws MonobankApiException
      */
-    public function statements(int $from, ?int $to = null, string $accountId = '0'): StatementCollection
+    public function statements(Carbon $from, ?Carbon $to = null, string $accountId = '0'): StatementCollection
     {
-        $to = (int) $to;
+        $fromTimestamp = $from->getTimestamp();
 
-        if (CarbonInterval::seconds($to - $from)->greaterThan(CarbonInterval::days(31)->addHours(1))) {
+        if ($to === null) {
+            $toTimestamp = 0;
+        } else {
+            $toTimestamp = $to->getTimestamp();
+        }
+
+        $diffSeconds = $toTimestamp - $fromTimestamp;
+
+        if (CarbonInterval::seconds($diffSeconds)->greaterThan(CarbonInterval::days(31)->addHours(1))) {
             throw new InvalidDateForStatementException('The maximum time limit exceeded for getting statement.');
         }
 
-        $url = "personal/statement/$accountId/$from";
+        $url = "personal/statement/$accountId/$fromTimestamp";
 
-        if ($to > 0) {
-            $url .= "/$to";
+        if ($toTimestamp > 0) {
+            $url .= "/$toTimestamp";
         }
 
         $response = $this->client->get($url);
