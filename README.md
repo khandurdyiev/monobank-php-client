@@ -37,9 +37,11 @@ foreach ($currencies as $currency) {
 ```
 
 ## Usage with token (Private Data)
+
 ```php
 <?php
 
+use Carbon\Carbon;
 use Khandurdyiev\MonoClient\MonoClient;
 
 // create a monobank client instance
@@ -59,7 +61,9 @@ foreach ($accounts as $account) {
 }
 
 // Get statements of concrete account
-$statements = $mono->statements('timestamp_from', 'timestamp_to', 'account_id')->all();
+$from = Carbon::now()->subMonth();
+$to = Carbon::now();
+$statements = $mono->statements($from, $to, 'account_id')->all();
 
 foreach ($statements as $statement) {
     $amount = $statement->getAmount(); // 123456
